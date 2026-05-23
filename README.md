@@ -1,5 +1,3 @@
-# 📂 `README.md`
-
 # 🚀 VCD SIMD Parser
 
 An ultra-high-performance, zero-copy VCD (Value Change Dump) lexing and parsing library written in modern C++17. By leveraging hardware-level **AVX2 (Advanced Vector Extensions)** instructions and OS memory-mapped files (`mmap` / `CreateFileMapping`), this engine bypasses traditional standard library bottleneck constraints to process text streams at near-memory-bandwidth speeds.
@@ -8,12 +6,12 @@ An ultra-high-performance, zero-copy VCD (Value Change Dump) lexing and parsing 
 
 The metrics below highlight the real-world processing times of this library against traditional C++ streaming patterns using an EDA simulation file containing **23.7 Million Tokens** and **20.7 Million Lines**:
 
-| Engine Variant | Operational Target | Internal Process Latency (`std::chrono`) | OS Kernel Execution Time | Speedup Multiplier |
-| :--- | :--- | :--- | :--- | :--- |
-| 🥇 **SIMD Line Parser** | Full-Line Ingestion | **771.94 ms** | 437 ms | **2.55x Faster** vs `std::getline` |
-| 🥈 **SIMD Token Parser** | Word-Token Ingestion | **836.07 ms** | 453 ms | **5.66x Faster** vs `std::stringstream` |
-| 🐢 **Scalar Line Baseline** | `std::getline` Buffer | **1,973.15 ms** | 578 ms | *Baseline* |
-| 🐌 **Scalar Token Baseline** | Stream Allocation | **4,738.53 ms** | 640 ms | *Baseline* |
+| Engine Variant | Operational Target | Internal Process Latency (`std::chrono`) | Speedup Multiplier |
+| :--- | :--- | :--- | :--- |
+| 🥇 **SIMD Line Parser** | Full-Line Ingestion | **685.99 ms** | **2.85x Faster** vs `std::getline` |
+| 🥈 **SIMD Token Parser** | Word-Token Ingestion | **846.68 ms** | **6.83x Faster** vs `std::stringstream` |
+| 🐢 **Scalar Line Baseline** | `std::getline` Buffer | **1,954.66 ms** | *Baseline* |
+| 🐌 **Scalar Token Baseline** | Stream Allocation | **5,786.05 ms** | *Baseline* |
 
 ### Key Architectural Breakthroughs:
 * **Zero Heap Allocations:** Individual tokens and rows are extracted as lightweight `std::string_view` windows (16-byte coordinate pairs) referencing the raw memory-mapped file natively, causing **0 bytes** of copy allocation thrashing.
@@ -131,11 +129,3 @@ int main() {
 ```
 
 ---
-
-## 📜 License
-
-This project is open-source and licensed under the **MIT License**. Feel free to use, modify, and distribute it across industrial, commercial, or academic workflows.
-
-```
-
-```
